@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Avizar.js Playground</title>
+
+  <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --primary: #6366f1;
+      --text: #0f172a;
+      --muted: #64748b;
+      --code: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      padding: 32px;
+    }
+
+    .layout {
+      max-width: 1600px;
+      margin: auto;
+
+      display: grid;
+      grid-template-columns: 1fr 520px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow:
+        0 10px 20px rgba(0, 0, 0, .03),
+        0 1px 2px rgba(0, 0, 0, .04);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 3rem;
+      letter-spacing: -3px;
+      font-weight: 900;
+    }
+
+    h1 span {
+      color: var(--primary);
+    }
+
+    p {
+      color: var(--muted);
+    }
+
+    .section {
+      margin-top: 42px;
+    }
+
+    .section-title {
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #94a3b8;
+      margin-bottom: 18px;
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font: inherit;
+      transition: .2s;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, .1);
+    }
+
+    .switches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .switch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: white;
+    }
+
+    button {
+      border: none;
+      background: var(--primary);
+      color: white;
+      padding: 16px 20px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: .95rem;
+      transition: .2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: .95;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .ghost {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .api-panel {
+      position: sticky;
+      top: 20px;
+
+      height: calc(100vh - 40px);
+
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      background: #eef2ff;
+      color: var(--primary);
+
+      padding: 6px 12px;
+      border-radius: 999px;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      margin-bottom: 18px;
+    }
+
+    .api-header h2 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .api-header p {
+      margin-bottom: 0;
+    }
+
+    .tabs {
+      margin-top: 24px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .tab {
+      background: #f1f5f9;
+      border: none;
+      color: #475569;
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .viewer {
+      margin-top: 20px;
+      flex: 1;
+      overflow: auto;
+      border-radius: 20px;
+      background: var(--code);
+    }
+
+    pre {
+      margin: 0;
+      min-height: 100%;
+      padding: 24px;
+      overflow: auto;
+    }
+
+    code {
+      color: #e2e8f0;
+      line-height: 1.7;
+      font-size: .88rem;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .preset-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .preset {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: .82rem;
+    }
+
+    .range-value {
+      font-size: .85rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    @media (max-width: 1200px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .api-panel {
+        position: relative;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="layout">
+
+    <!-- LEFT -->
+    <div class="panel">
+
+      <h1>Avizar<span>.js</span></h1>
+
+      <p>
+        Interactive playground for building, testing and generating
+        Avizar toast APIs in real time.
+      </p>
+
+      <!-- CONTENT -->
+      <div class="section">
+
+        <div class="section-title">
+          Conteúdo
+        </div>
+
+        <div class="grid">
+
+          <div class="field">
+            <label>Título</label>
+            <input id="title" value="Upload concluído" />
+          </div>
+
+          <div class="field">
+            <label>Mensagem</label>
+            <textarea id="message">Seu arquivo foi enviado com sucesso.</textarea>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BASIC -->
+      <div class="section">
+
+        <div class="section-title">
+          Configuração
+        </div>
+
+        <div class="grid grid-3">
+
+          <div class="field">
+            <label>Tipo</label>
+
+            <select id="type">
+              <option value="success">success</option>
+              <option value="error">error</option>
+              <option value="warning">warning</option>
+              <option value="info">info</option>
+              <option value="show">default</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Theme</label>
+
+            <select id="theme">
+              <option value="light">light</option>
+              <option value="dark">dark</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Position</label>
+
+            <select id="position">
+              <option>top-left</option>
+              <option>top-center</option>
+              <option>top-right</option>
+              <option>bottom-left</option>
+              <option selected>bottom-center</option>
+              <option>bottom-right</option>
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BEHAVIOR -->
+      <div class="section">
+
+        <div class="section-title">
+          Comportamento
+        </div>
+
+        <div class="grid grid-2">
+
+          <div class="field">
+            <label>
+              Duration
+              <span class="range-value" id="durationValue">
+                3000ms
+              </span>
+            </label>
+
+            <input id="duration" type="range" min="1000" max="10000" step="500" value="3000" />
+          </div>
+
+          <div class="field">
+            <label>ClassName</label>
+
+            <input id="className" placeholder="pill" />
+          </div>
+
+        </div>
+
+        <div class="switches" style="margin-top: 18px;">
+
+          <label class="switch">
+            <input checked type="checkbox" id="showIcon" />
+            showIcon
+          </label>
+
+          <label class="switch">
+            <input checked type="checkbox" id="showProgress" />
+            showProgress
+          </label>
+
+          <label class="switch">
+            <input checked type="checkbox" id="closable" />
+            closable
+          </label>
+
+          <label class="switch">
+            <input checked type="checkbox" id="pauseOnHover" />
+            pauseOnHover
+          </label>
+
+          <label class="switch">
+            <input checked type="checkbox" id="pauseOnWindowBlur" />
+            pauseOnWindowBlur
+          </label>
+
+        </div>
+
+      </div>
+
+      <!-- PRESETS -->
+      <div class="section">
+
+        <div class="section-title">
+          Presets
+        </div>
+
+        <div class="preset-grid">
+
+          <button class="preset" onclick="applyPreset('minimal')">
+            Minimal
+          </button>
+
+          <button class="preset" onclick="applyPreset('pill')">
+            Pill
+          </button>
+
+          <button class="preset" onclick="applyPreset('actions')">
+            Actions
+          </button>
+
+          <button class="preset" onclick="applyPreset('dark')">
+            Dark
+          </button>
+
+          <button class="preset" onclick="applyPreset('discord')">
+            Discord
+          </button>
+
+          <button class="preset" onclick="applyPreset('apple')">
+            Apple
+          </button>
+
+
+        </div>
+
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="actions">
+
+        <button onclick="showToast()">
+          Show Toast
+        </button>
+
+        <button class="ghost" onclick="copyCode()">
+          Copy Code
+        </button>
+
+        <button class="ghost" onclick="Avizar.clearAll()">
+          Clear All
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <aside class="panel api-panel">
+
+      <div class="badge">
+        LIVE API
+      </div>
+
+      <div class="api-header">
+
+        <h2>
+          Generated API
+        </h2>
+
+        <p>
+          The snippet updates automatically based on
+          the selected controls.
+        </p>
+
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs">
+
+        <button class="tab active" onclick="setTab('code', this)">
+          Code
+        </button>
+
+        <button class="tab" onclick="setTab('types', this)">
+          Types
+        </button>
+
+        <button class="tab" onclick="setTab('signature', this)">
+          Signature
+        </button>
+
+      </div>
+
+      <!-- CODE -->
+      <div class="viewer" id="code-viewer">
+        <pre><code id="generated-code"></code></pre>
+      </div>
+
+      <!-- TYPES -->
+      <div class="viewer hidden" id="types-viewer">
+        <pre><code>type ToastOptions = {
+  title?: string
+  message: string
+
+  type?: ToastType
+
+  theme?: "light" | "dark"
+
+  position?:
+    | "top-left"
+    | "top-center"
+    | "top-right"
+    | "bottom-left"
+    | "bottom-center"
+    | "bottom-right"
+
+  duration?: number
+
+  closable?: boolean
+  showIcon?: boolean
+  showProgress?: boolean
+
+  pauseOnHover?: boolean
+  pauseOnWindowBlur?: boolean
+
+  className?: string
+
+  actions?: ToastAction[]
+}</code></pre>
+      </div>
+
+      <!-- SIGNATURE -->
+      <div class="viewer hidden" id="signature-viewer">
+        <pre><code>success(
+  arg1: string,
+  arg2?:
+    | string
+    | Partial&lt;ToastOptions&gt;
+    | ToastAction[]
+    | ToastAction,
+
+  arg3?:
+    | ToastAction[]
+    | Partial&lt;ToastOptions&gt;
+): ToastController</code></pre>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <script type="module">
+
+    import { Avizar } from './src/index.ts';
+
+    window.Avizar = Avizar;
+
+    let currentPreset = null;
+
+    const $ = (id) =>
+      document.getElementById(id);
+
+    const fields = [
+      'title',
+      'message',
+      'type',
+      'theme',
+      'position',
+      'duration',
+      'className',
+      'showIcon',
+      'showProgress',
+      'closable',
+      'pauseOnHover',
+      'pauseOnWindowBlur'
+    ];
+
+    fields.forEach(id => {
+      $(id).addEventListener('input', updateCode);
+      $(id).addEventListener('change', updateCode);
+    });
+
+    function collectConfig() {
+
+      return {
+        title: $('title').value,
+        message: $('message').value,
+        type: $('type').value,
+        theme: $('theme').value,
+        position: $('position').value,
+        duration: Number($('duration').value),
+        className: $('className').value,
+
+        showIcon: $('showIcon').checked,
+        showProgress: $('showProgress').checked,
+        closable: $('closable').checked,
+        pauseOnHover: $('pauseOnHover').checked,
+        pauseOnWindowBlur:
+          $('pauseOnWindowBlur').checked
+      };
+    }
+
+    function generateCode(config) {
+
+      const options = {
+        theme: config.theme,
+        position: config.position,
+        duration: config.duration,
+        showIcon: config.showIcon,
+        showProgress: config.showProgress,
+        closable: config.closable,
+        pauseOnHover: config.pauseOnHover,
+        pauseOnWindowBlur:
+          config.pauseOnWindowBlur
+      };
+
+      if (config.className) {
+        options.className = config.className;
+      }
+      if (currentPreset === 'actions') {
+
+        return `Avizar.warning(
+  'Cuidado!',
+  'Deseja apagar este arquivo?',
+  {
+    theme: 'dark',
+    position: 'bottom-center',
+    duration: 0,
+
+    actions: [
+      {
+        button: 'Cancelar'
+      },
+      {
+        button: 'Deletar',
+        onClick: (id) => {
+          console.log(id)
+        }
+      }
+    ]
+  }
+)`;
+      }
+
+      const optionsString =
+        JSON.stringify(options, null, 2)
+          .replace(/"([^"]+)":/g, '$1:')
+          .replace(/"/g, "'");
+
+      return `Avizar.${config.type}(
+  '${config.title}',
+  '${config.message}',
+  ${optionsString}
+)`;
+    }
+
+    window.showToast = () => {
+
+      const config = collectConfig();
+
+      const options = {
+        theme: config.theme,
+        position: config.position,
+        duration: config.duration,
+        className: config.className,
+
+        showIcon: config.showIcon,
+        showProgress: config.showProgress,
+        closable: config.closable,
+
+        pauseOnHover:
+          config.pauseOnHover,
+
+        pauseOnWindowBlur:
+          config.pauseOnWindowBlur
+      };
+
+      // PRESET ACTIONS
+      if (currentPreset === 'actions') {
+
+        options.actions = [
+          {
+            button: 'Cancelar'
+          },
+          {
+            button: 'Deletar',
+            onClick: (id) => {
+              console.log(
+                'Deleting toast:',
+                id
+              );
+
+              Avizar.success(
+                'Arquivo removido'
+              );
+            }
+          }
+        ];
+      }
+
+      Avizar[config.type](
+        config.title,
+        config.message,
+        options
+      );
+
+      updateCode();
+    };
+
+    function updateCode() {
+
+      const config = collectConfig();
+
+      $('generated-code').textContent =
+        generateCode(config);
+
+      $('durationValue').textContent =
+        `${config.duration}ms`;
+    }
+
+    window.copyCode = async () => {
+
+      const code =
+        $('generated-code').textContent;
+
+      await navigator.clipboard.writeText(code);
+
+      Avizar.success(
+        'Copiado!',
+        'Snippet copiado para clipboard.'
+      );
+    };
+
+    window.setTab = (tab, el) => {
+
+      document
+        .querySelectorAll('.tab')
+        .forEach(t => t.classList.remove('active'));
+
+      el.classList.add('active');
+
+      [
+        'code',
+        'types',
+        'signature'
+      ].forEach(name => {
+
+        const viewer =
+          document.getElementById(
+            `${name}-viewer`
+          );
+
+        viewer.classList.toggle(
+          'hidden',
+          name !== tab
+        );
+      });
+    };
+
+    window.applyPreset = (preset) => {
+
+      currentPreset = preset;
+
+      switch (preset) {
+
+        case 'minimal':
+
+          $('theme').value = 'light';
+          $('showProgress').checked = false;
+          $('showIcon').checked = false;
+          $('className').value = '';
+
+          break;
+
+        case 'pill':
+
+          $('className').value = 'pill';
+          $('position').value = 'bottom-center';
+
+          break;
+
+        case 'dark':
+
+          $('theme').value = 'dark';
+
+          break;
+
+        case 'actions':
+
+          $('title').value = 'Cuidado!';
+          $('message').value =
+            'Deseja apagar este arquivo?';
+
+          $('type').value = 'warning';
+
+          $('theme').value = 'dark';
+
+          $('position').value =
+            'bottom-center';
+
+          $('duration').value = 0;
+
+          $('showProgress').checked = false;
+
+          $('showIcon').checked = true;
+
+          $('className').value = '';
+
+          break;
+
+        case 'discord':
+
+          $('theme').value = 'dark';
+          $('duration').value = 6000;
+          $('showProgress').checked = true;
+
+          break;
+
+        case 'apple':
+
+          $('showProgress').checked = false;
+          $('showIcon').checked = true;
+          $('duration').value = 2500;
+
+          break;
+      }
+
+      updateCode();
+    };
+
+    updateCode();
+
+  </script>
+
+</body>
+
+</html>
