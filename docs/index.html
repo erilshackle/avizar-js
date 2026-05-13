@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avizar.js | Dev Playground</title>
+  <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+  <style>
+    :root {
+      --bg: #f0f2f5;
+      --primary: #6366f1;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: #1e293b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .playground {
+      background: white;
+      padding: 2rem;
+      border-radius: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+    }
+
+    h1 {
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: #64748b;
+      margin-bottom: 2rem;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .section h2 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: #94a3b8;
+      letter-spacing: 1px;
+    }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    button {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #f5f3ff;
+    }
+
+    .btn-pill {
+      border-radius: 50px;
+      background: #1e293b;
+      color: white;
+      border: none;
+    }
+
+    .btn-pill:hover {
+      background: #334155;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="playground">
+    <h1>Avizar<span>.js</span></h1>
+    <p>Dashboard de testes para componentes de notificação</p>
+
+    <!-- Teste de Tipos (Glass Default) -->
+    <div class="section">
+      <h2>Estilo Glass (Padrão)</h2>
+      <div class="btn-grid">
+        <button onclick="Avizar.success('Sucesso!', 'Operação realizada com sucesso.')">Success</button>
+        <button onclick="Avizar.error('Erro!', 'Algo deu muito errado por aqui.')">Error</button>
+        <button onclick="Avizar.warning('Atenção', 'Verifique os campos do formulário.')">Warning</button>
+        <button onclick="Avizar.info('Informação', 'Seu backup está sendo processado.')">Info</button>
+      </div>
+    </div>
+
+    <!-- Teste de Sobrecargas da API -->
+    <div class="section">
+      <h2>Sobrecargas da API</h2>
+      <div class="btn-grid">
+        <button onclick="Avizar.success('Mensagem simples sem título')">Só Mensagem</button>
+        <button onclick="Avizar.info('Título', 'Mensagem com corpo e título')">Título + Msg</button>
+      </div>
+    </div>
+
+    <!-- Teste de Pill e Actions -->
+    <div class="section">
+      <h2>Variações Complexas (Pill & Actions)</h2>
+      <div class="btn-grid">
+        <button class="btn-pill" onclick="testPill()">Modo Pill</button>
+        <button class="btn-pill" onclick="testActions()">Com Botões</button>
+        <button onclick="Avizar.clearAll()" style="color: #ef4444;">Limpar Tudo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Se estiver usando Vite no dev, aponte para o seu entry file -->
+  <script src="https://unpkg.com/avizar-js@1.0.0/dist/avizar.min.js"></script>
+  <script>
+
+    // Colocando no window para os botões do HTML acessarem
+    // window.Avizar = Avizar.default;
+
+    // Função de teste para o estilo Pill
+    window.testPill = () => {
+      Avizar.info('Estilo Pill', 'Este é o formato arredondado e escuro.', {
+        className: 'pill',
+        position: 'bottom-center'
+      });
+    };
+
+    // Função de teste para Actions
+    window.testActions = () => {
+      // Teste da sua nova sintaxe
+      Avizar.warning("Cuidado!", "Deseja apagar?", {
+        button: "Deletar agora",
+        onClick: (id) => {
+          console.log("Apagando toast: " + id);
+        }
+      });
+    };
+  </script>
+</body>
+
+</html>
