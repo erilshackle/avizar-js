@@ -1,12 +1,14 @@
 /* Definições de Cores por Tema */
 :root {
   --avizar-bg-glass: rgba(255, 255, 255, 0.8);
+  --avizar-bg-solid: rgba(255, 255, 255);
   --avizar-text: #1e293b;
   --avizar-border: rgba(255, 255, 255, 0.4);
 }
 
 .avizar-dark {
   --avizar-bg-glass: rgba(30, 41, 59, 0.8);
+  --avizar-bg-solid: rgba(30, 41, 59);
   --avizar-text: #f8fafc;
   --avizar-border: rgba(255, 255, 255, 0.1);
 }
@@ -125,7 +127,7 @@
 }
 
 .avizar-solid {
-  background: #fff;
+  background: var(--avizar-bg-solid);
   color: var(--avizar-text);
   border: 1px solid var(--avizar-border);
   border-radius: 2px;
