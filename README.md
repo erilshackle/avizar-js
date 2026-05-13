@@ -13,7 +13,7 @@ npm install avizar-js
 
 ### Via CDN (Directly in Browser)
 
-Insert the CSS and the Script in your `<head>` or before `</body>`:
+Insert the Script in your `<head>` or before `</body>`:
 
 ```html
 <script src="https://unpkg.com/avizar-js@1.0.0/dist/avizar.min.js"></script>
