@@ -16,9 +16,7 @@ npm install avizar-js
 Insert the CSS and the Script in your `<head>` or before `</body>`:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/avizar-js/dist/style.css">
-<script src="https://unpkg.com/avizar-js/dist/avizar.umd.cjs"></script>
-
+<script src="https://unpkg.com/avizar-js@1.0.0/dist/avizar.min.js"></script>
 ```
 
 ---
