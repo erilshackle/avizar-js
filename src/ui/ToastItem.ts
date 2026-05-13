@@ -3,13 +3,14 @@ import { store } from "../core/store";
 
 export function createToastElement(toast: Toast): HTMLElement {
   const el = document.createElement("div");
-  
+
   const themeClass = `avizar-${toast.theme || 'auto'}`;
-  
+
   // Define se é Pill ou Glass baseado na className
-  const isPill = toast.className?.includes('pill');
-  const variantClass = isPill ? 'avizar-pill' : 'avizar-glass';
-  
+  const isPill = toast.className?.includes('pill'), isSolid = toast.className?.includes('solid');
+  const variantClass = isPill ? 'avizar-pill' : (isSolid ? 'avizar-solid' : 'avizar-glass');
+
+
   el.className = `avizar-toast ${variantClass} ${themeClass} ${toast.type} ${toast.className || ""}`;
   el.setAttribute("role", "alert");
 
@@ -61,7 +62,7 @@ export function createToastElement(toast: Toast): HTMLElement {
     if (toast.duration <= 0) return;
     start = Date.now();
     timerId = window.setTimeout(() => dismiss(el, toast.id), remaining);
-    
+
     const updateProgress = () => {
       const elapsed = Date.now() - start;
       const progress = Math.max(0, (remaining - elapsed) / toast.duration);
@@ -82,7 +83,7 @@ export function createToastElement(toast: Toast): HTMLElement {
 
   // Eventos de Botões
   el.querySelector('.avizar-close')?.addEventListener('click', () => dismiss(el, toast.id));
-  
+
   el.querySelectorAll('.avizar-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const idx = parseInt((e.target as HTMLElement).dataset.index!);

@@ -6,12 +6,11 @@ import "./styles.css";
 class ToastManager {
   private containers: Map<string, HTMLElement> = new Map();
   private elementsMap: Map<string, HTMLElement> = new Map();
-  private unsubscribe?: () => void;
 
   constructor() { this.init(); }
 
   private init() {
-    this.unsubscribe = store.subscribe((toasts: Toast[]) => this.render(toasts));
+    store.subscribe((toasts: Toast[]) => this.render(toasts));
   }
 
   private getContainer(position: string): HTMLElement {

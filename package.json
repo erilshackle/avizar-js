@@ -2,15 +2,18 @@
   "name": "avizar-js",
   "version": "1.0.0",
   "type": "module",
-  "main": "./dist/avizar.umd.cjs",
-  "module": "./dist/avizar.js",
+  "description": "Lightweight glassmorphism notification library with auto-injected styles.",
+  "author": "Erilando Carvalho",
+  "license": "MIT",
+  "main": "./dist/avizar.min.js",
+  "module": "./dist/avizar.esm.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/avizar.js",
-      "require": "./dist/avizar.umd.cjs"
-    },
-    "./style.css": "./dist/style.css"
+      "import": "./dist/avizar.esm.js",
+      "require": "./dist/avizar.min.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "files": [
     "dist"
@@ -18,12 +21,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@types/node": "^25.7.0",
+    "@types/node": "^22.0.0",
     "typescript": "~5.4.0",
     "vite": "^5.0.0",
+    "vite-plugin-css-injected-by-js": "^4.0.1",
     "vite-plugin-dts": "^3.9.1"
   }
 }

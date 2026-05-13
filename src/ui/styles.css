@@ -18,7 +18,8 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px; /* Espaçamento real entre os toasts */
+  gap: 12px;
+  /* Espaçamento real entre os toasts */
   pointer-events: none;
   min-width: 350px;
   max-width: 100%;
@@ -27,23 +28,43 @@
 }
 
 /* Alinhamentos Específicos */
-.top-right    { top: 0; right: 0; align-items: flex-end; }
-.top-left     { top: 0; left: 0; align-items: flex-start; }
-.bottom-right { bottom: 0; right: 0; align-items: flex-end; }
-.bottom-left  { bottom: 0; left: 0; align-items: flex-start; }
+.top-right {
+  top: 0;
+  right: 0;
+  align-items: flex-end;
+}
+
+.top-left {
+  top: 0;
+  left: 0;
+  align-items: flex-start;
+}
+
+.bottom-right {
+  bottom: 0;
+  right: 0;
+  align-items: flex-end;
+}
+
+.bottom-left {
+  bottom: 0;
+  left: 0;
+  align-items: flex-start;
+}
 
 /* Correção para os Centros (Evita que o toast saia da tela) */
-.top-center { 
-  top: 0; 
-  left: 50%; 
-  transform: translateX(-50%); 
-  align-items: center; 
+.top-center {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
 }
-.bottom-center { 
-  bottom: 0; 
-  left: 50%; 
-  transform: translateX(-50%); 
-  align-items: center; 
+
+.bottom-center {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
 }
 
 /* 2. Base Toast */
@@ -56,12 +77,18 @@
   will-change: transform, opacity;
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   opacity: 0;
-  box-sizing: border-box; /* Garante que padding não quebre largura */
+  box-sizing: border-box;
+  /* Garante que padding não quebre largura */
 }
 
 /* Animações de Entrada baseadas na posição */
-[class*="top-"] .avizar-toast { transform: translateY(-20px) scale(0.9); }
-[class*="bottom-"] .avizar-toast { transform: translateY(20px) scale(0.9); }
+[class*="top-"] .avizar-toast {
+  transform: translateY(-20px) scale(0.9);
+}
+
+[class*="bottom-"] .avizar-toast {
+  transform: translateY(20px) scale(0.9);
+}
 
 .avizar-toast.avizar-enter {
   opacity: 1 !important;
@@ -71,7 +98,8 @@
 .avizar-toast.avizar-exit {
   opacity: 0 !important;
   transform: scale(0.8) !important;
-  margin-top: -60px; /* Ajuda a fechar o gap suavemente na saída */
+  margin-top: -60px;
+  /* Ajuda a fechar o gap suavemente na saída */
   filter: blur(4px);
   z-index: -1;
 }
@@ -93,7 +121,15 @@
   border-radius: 100px;
   padding: 4px 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.avizar-solid {
+  background: #fff;
+  color: var(--avizar-text);
+  border: 1px solid var(--avizar-border);
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .avizar-inner {
@@ -111,15 +147,32 @@
   align-items: center;
   justify-content: center;
 }
-.avizar-icon svg { width: 100%; height: 100%; }
+
+.avizar-icon svg {
+  width: 100%;
+  height: 100%;
+}
 
 /* Cores dos Ícones */
-.success .avizar-icon { color: #10b981; }
-.error   .avizar-icon { color: #ef4444; }
-.warning .avizar-icon { color: #f59e0b; }
-.info    .avizar-icon { color: #3b82f6; }
+.success .avizar-icon {
+  color: #10b981;
+}
 
-.avizar-body { flex: 1; }
+.error .avizar-icon {
+  color: #ef4444;
+}
+
+.warning .avizar-icon {
+  color: #f59e0b;
+}
+
+.info .avizar-icon {
+  color: #3b82f6;
+}
+
+.avizar-body {
+  flex: 1;
+}
 
 .avizar-title {
   margin: 0 0 4px 0;
@@ -157,12 +210,12 @@
   justify-content: center;
   display: inline-flex !important;
   padding: 6px 12px;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   font-size: 12px;
 }
 
-.avizar-dark .avizar-btn, 
+.avizar-dark .avizar-btn,
 .avizar-auto .avizar-btn {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
@@ -177,6 +230,7 @@
 .avizar-btn:hover {
   background: rgba(0, 0, 0, 0.1);
 }
+
 .avizar-pill .avizar-btn:hover {
   background: rgba(255, 255, 255, 0.2);
 }
@@ -192,7 +246,10 @@
   padding: 0;
   margin-left: 8px;
 }
-.avizar-close:hover { opacity: 1; }
+
+.avizar-close:hover {
+  opacity: 1;
+}
 
 /* 5. Progress Bar */
 .avizar-progress {
