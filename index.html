@@ -7,7 +7,7 @@
 
   <title>Avizar.js Playground</title>
 
-  <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="public/icon.png" type="image/x-icon">
 
   <style>
     :root {
@@ -589,10 +589,9 @@
 
   </div>
 
-  <script src="https://unpkg.com/avizar-js@1.0.0/dist/avizar.min.js"></script>
-  <script>
+  <script type="module">
 
-    // import { Avizar } from './src/index.ts';
+    import { Avizar } from './src/index.ts';
 
     window.Avizar = Avizar;
 

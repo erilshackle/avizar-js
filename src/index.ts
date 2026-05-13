@@ -51,4 +51,5 @@ export const Avizar = {
     clearAll: () => store.clearAll(),
 };
 
+// if (typeof window !== 'undefined') (window as any).Avizar = Avizar;
 export default Avizar;

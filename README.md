@@ -27,7 +27,6 @@ Insert the Script in your `<head>` or before `</body>`:
 
 ```javascript
 import Avizar from 'avizar-js';
-import 'avizar-js/dist/style.css';
 
 Avizar.success("Success!", "Operation completed successfully.");
 
@@ -90,9 +89,7 @@ Avizar.config({
 
 Want to see it in action before installing? Check out the live playground:
 
-👉 **[Launch Avizar Playground](https://www.google.com/search?q=./index.html)** *(Local link)*
-
-*(Note: To test online, host your `index.html` on GitHub Pages or Vercel)*
+👉 **[Launch Avizar Playground](https://erilshackle.github.io/avizar-js/)**
 
 ---
 
@@ -100,9 +97,10 @@ Want to see it in action before installing? Check out the live playground:
 
 * **Glass:** Default modern look with backdrop blur.
 * **Pill:** Rounded, compact notification. Add `className: 'pill'` to your options.
+* **Solid:** Rect, solid notification. Add `className: 'solid'` to your options.
 
 ---
 
 ## 📄 License
 
-MIT © [Erilando Carvalho]()
+MIT © [Erilando Carvalho](./LICENSE)

@@ -7,8 +7,17 @@ export function createToastElement(toast: Toast): HTMLElement {
   const themeClass = `avizar-${toast.theme || 'auto'}`;
 
   // Define se é Pill ou Glass baseado na className
-  const isPill = toast.className?.includes('pill'), isSolid = toast.className?.includes('solid');
-  const variantClass = isPill ? 'avizar-pill' : (isSolid ? 'avizar-solid' : 'avizar-glass');
+  const variants = {
+    pill: 'avizar-pill',
+    solid: 'avizar-solid',
+    glass: 'avizar-glass'
+  } as const;
+
+  type VariantKey = keyof typeof variants;
+
+  const classes = toast.className?.split(/\s+/) || [];
+  const selectedVariant = (Object.keys(variants) as VariantKey[]).find(v => classes.includes(v));
+  const variantClass = variants[selectedVariant || 'glass'];
 
 
   el.className = `avizar-toast ${variantClass} ${themeClass} ${toast.type} ${toast.className || ""}`;
