@@ -70,7 +70,7 @@ export function createToastElement(toast: Toast): HTMLElement {
   const resume = () => {
     if (toast.duration <= 0) return;
     start = Date.now();
-    timerId = window.setTimeout(() => dismiss(el, toast.id), remaining);
+    timerId = window.setTimeout(() => dismiss(el, toast.id, cleanup), remaining);
 
     const updateProgress = () => {
       const elapsed = Date.now() - start;
@@ -91,13 +91,13 @@ export function createToastElement(toast: Toast): HTMLElement {
   if (toast.duration > 0) resume();
 
   // Eventos de Botões
-  el.querySelector('.avizar-close')?.addEventListener('click', () => dismiss(el, toast.id));
+  el.querySelector('.avizar-close')?.addEventListener('click', () => dismiss(el, toast.id, cleanup));
 
   el.querySelectorAll('.avizar-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const idx = parseInt((e.target as HTMLElement).dataset.index!);
       toast.actions[idx].onClick(toast.id);
-      dismiss(el, toast.id);
+      dismiss(el, toast.id, cleanup);
     });
   });
 
@@ -107,12 +107,25 @@ export function createToastElement(toast: Toast): HTMLElement {
   return el;
 }
 
-function dismiss(el: HTMLElement, id: string) {
+function dismiss(
+  el: HTMLElement,
+  id: string,
+  cleanup?: () => void
+) {
+  if (el.classList.contains('avizar-exit')) return;
+
+  cleanup?.();
+
   el.classList.add('avizar-exit');
-  el.addEventListener('transitionend', () => {
+
+  const remove = () => {
     store.remove(id);
     el.remove();
-  }, { once: true });
+  };
+
+  el.addEventListener('transitionend', remove, { once: true });
+
+  setTimeout(remove, 500);
 }
 
 function getIcon(type: string) {
