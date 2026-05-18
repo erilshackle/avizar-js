@@ -395,13 +395,13 @@
               </span>
             </label>
 
-            <input id="duration" type="range" min="1000" max="10000" step="500" value="3000" />
+            <input id="duration" type="range" min="0" max="10000" step="500" value="3000" />
           </div>
 
           <div class="field">
             <label>ClassName</label>
 
-            <input id="className" placeholder="pill" />
+            <input id="className" placeholder="pill, solid" />
           </div>
 
         </div>
@@ -589,10 +589,9 @@
 
   </div>
 
-  <script src="https://unpkg.com/avizar-js@1.0.0/dist/avizar.min.js"></script>
-  <script>
+  <script type="module">
 
-    // import { Avizar } from './src/index.ts';
+    import { Avizar } from './src/index.ts';
 
     window.Avizar = Avizar;
 
