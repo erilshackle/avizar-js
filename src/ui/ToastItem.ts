@@ -109,7 +109,10 @@ export function createToastElement(toast: Toast): HTMLElement {
 
 function dismiss(el: HTMLElement, id: string) {
   el.classList.add('avizar-exit');
-  el.addEventListener('animationend', () => store.remove(id), { once: true });
+  el.addEventListener('transitionend', () => {
+    store.remove(id);
+    el.remove();
+  }, { once: true });
 }
 
 function getIcon(type: string) {

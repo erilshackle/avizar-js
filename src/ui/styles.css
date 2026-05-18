@@ -6,7 +6,7 @@
   --avizar-border: rgba(255, 255, 255, 0.4);
 }
 
-.avizar-dark {
+.avizar-toast.avizar-dark {
   --avizar-bg-glass: rgba(30, 41, 59, 0.8);
   --avizar-bg-solid: rgba(30, 41, 59);
   --avizar-text: #f8fafc;
@@ -100,10 +100,12 @@
 .avizar-toast.avizar-exit {
   opacity: 0 !important;
   transform: scale(0.8) !important;
-  margin-top: -60px;
-  /* Ajuda a fechar o gap suavemente na saída */
   filter: blur(4px);
-  z-index: -1;
+  pointer-events: none;
+  max-height: 0;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 /* 3. Estilos de Variante */
@@ -268,7 +270,7 @@
 
 /* Tema Auto (Segue o Sistema) */
 @media (prefers-color-scheme: dark) {
-  .avizar-auto {
+  .avizar-toast.avizar-auto {
     --avizar-bg-glass: rgba(30, 41, 59, 0.9);
     --avizar-text: #f8fafc;
     --avizar-border: rgba(255, 255, 255, 0.1);
